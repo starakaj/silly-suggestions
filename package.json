@@ -1,0 +1,11 @@
+{
+  "name": "suggestions",
+  "version": "1.0.0",
+  "description": "A very simple and dumb suggestion logger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Tarakajian (@starakaj)",
+  "license": "MIT"
+}
