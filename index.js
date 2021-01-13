@@ -1,11 +1,11 @@
 const express = require("express");
 const fs = require("fs");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 0;
 
 const app = express();
 
 app.use(express.static("static"));
-// app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 const locations = [
     {
@@ -32,7 +32,8 @@ app.get("/", (_, res) => {
     res.redirect("/hallway");
 });
 
-app.get("/hallway", (_, res) => {
+app.get("/hallway", (req, res) => {
+
     lastLocation = "hallway";
     options = [
         "<a href=/big>Go left to the big room</a>",
@@ -118,12 +119,13 @@ app.get("/key", (_, res) => {
     )
 });
 
-app.get("/unlock", (_, res) => {
+app.get("/unlock/", (_, res) => {
     let text;
     let returnAddress = "hallway";
     let options;
     if (!!lastLocation) returnAddress = lastLocation;
     
+    // if you have the key
     if (inventory.length > 0) {
         text = "You did it! The heavy door latches open with a loud clunk, and swings open dramatically. You've escaped the labyrinth.";
         options = [`<a href=/>Start over</a>`];
@@ -140,6 +142,7 @@ app.get("/unlock", (_, res) => {
     )
 });
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+let server = app.listen(port, () => {
+    let boundPort = server.address().port;
+    console.log(`Listening on port ${boundPort}, visit http://localhost:${boundPort}`);
 });
